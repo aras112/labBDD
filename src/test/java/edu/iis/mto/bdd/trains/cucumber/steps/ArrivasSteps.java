@@ -11,7 +11,6 @@ import cucumber.api.java.pl.Zakładając;
 
 public class ArrivasSteps
     {
-
     @Zakładając("^chcę się dostać z \"([^\"]*)\" do \"([^\"]*)\"$")
     public void chcęSięDostaćZDo(String departure, String destination) throws Throwable
         {
@@ -20,8 +19,8 @@ public class ArrivasSteps
         }
 
     @I("^następny pociąg odjeżdża o \"([^\"]*)\" na linii \"([^\"]*)\"$")
-    public void następnyPociągOdjeżdżaONaLinii(String arg0,
-                                               @Transform(JodaLocalTimeConverter.class) LocalTime time) throws Throwable
+    public void następnyPociągOdjeżdżaONaLinii(@Transform(JodaLocalTimeConverter.class) LocalTime time,
+                                               String line) throws Throwable
         {
         // Write code here that turns the phrase above into concrete actions
         throw new PendingException();
@@ -30,6 +29,7 @@ public class ArrivasSteps
     @Gdy("^zapytam o godzinę przyjazdu$")
     public void zapytamOGodzinęPrzyjazdu()
         {
+
         }
 
     @Wtedy("^powinienem uzyskać następujący szacowany czas przyjazdu: \"([^\"]*)\"$")
