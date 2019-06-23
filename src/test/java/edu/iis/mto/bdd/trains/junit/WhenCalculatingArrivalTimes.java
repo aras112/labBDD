@@ -10,6 +10,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import edu.iis.mto.bdd.trains.model.Line;
 import edu.iis.mto.bdd.trains.services.ItineraryServiceImpl;
@@ -38,7 +39,7 @@ public class WhenCalculatingArrivalTimes
         }
 
     @Test
-    public void name()
+    public void shouldReturnTimeForEmuPlainsStation()
         {
         //g
 
@@ -57,6 +58,31 @@ public class WhenCalculatingArrivalTimes
         //w
         LocalTime localTime = intineraryService.findNextDepartures("Emu Plains", "North Richmond",
                 LocalTime.parse("10:00"));
+        //t
+
+        Assert.assertThat(localTime, is(LocalTime.parse("10:10")));
+        }
+
+    @Test(expected = NoSuchElementException.class)
+    public void shouldThrowExceptionBecauseOfBadTime()
+        {
+        //g
+
+        when(timetableService.findLinesThrough("Emu Plains", "North Richmond")).thenReturn(new LinkedList<Line>()
+            {{
+            add(line);
+            }});
+        when(timetableService.findArrivalTimes(line, "Emu Plains")).thenReturn(new LinkedList<LocalTime>()
+            {{
+            add(LocalTime.parse("10:10"));
+            }});
+        when(timetableService.findArrivalTimes(line, "North Richmond")).thenReturn(new LinkedList<LocalTime>()
+            {{
+            add(LocalTime.parse("12:10"));
+            }});
+        //w
+        LocalTime localTime = intineraryService.findNextDepartures("Emu Plains", "North Richmond",
+                LocalTime.parse("11:00"));
         //t
 
         Assert.assertThat(localTime, is(LocalTime.parse("10:10")));
