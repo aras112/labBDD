@@ -8,14 +8,14 @@ import cucumber.api.java.pl.Gdy;
 import cucumber.api.java.pl.I;
 import cucumber.api.java.pl.Wtedy;
 import cucumber.api.java.pl.Zakładając;
+import edu.iis.mto.bdd.trains.cucumber.steps.JodaLocalTimeConverter;
 
-public class ArrivasSteps
+public class ArrivalSteps
     {
     @Zakładając("^chcę się dostać z \"([^\"]*)\" do \"([^\"]*)\"$")
     public void chcęSięDostaćZDo(String departure, String destination) throws Throwable
         {
         // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
         }
 
     @I("^następny pociąg odjeżdża o \"([^\"]*)\" na linii \"([^\"]*)\"$")
@@ -23,7 +23,7 @@ public class ArrivasSteps
                                                String line) throws Throwable
         {
         // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+
         }
 
     @Gdy("^zapytam o godzinę przyjazdu$")
@@ -35,7 +35,10 @@ public class ArrivasSteps
     @Wtedy("^powinienem uzyskać następujący szacowany czas przyjazdu: \"([^\"]*)\"$")
     public void powinienemUzyskaćNastępującySzacowanyCzasPrzyjazdu(@Transform(JodaLocalTimeConverter.class) LocalTime time) throws Throwable
         {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+        // TODO: 23.06.2019
+        //  Implementację kryteriów akceptacji rozpoczynaj od kroku @Then
+        //  definiując oczekiwany rezultat. W przypadku tego scenariusza będzie to
+        //  sprawdzenie czy zaproponowane (przez usługę planowania podróży)
+        //  godziny są zgodne z oczekiwanymi.
         }
     }
