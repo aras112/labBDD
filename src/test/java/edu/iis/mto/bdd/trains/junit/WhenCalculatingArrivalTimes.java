@@ -36,6 +36,11 @@ public class WhenCalculatingArrivalTimes
                 "North Richmond");
         intineraryService = new ItineraryServiceImpl(timetableService);
 
+
+        when(timetableService.findLinesThrough("Emu Plains", "North Richmond")).thenReturn(new LinkedList<Line>()
+            {{
+            add(line);
+            }});
         }
 
     @Test
@@ -56,22 +61,17 @@ public class WhenCalculatingArrivalTimes
             add(LocalTime.parse("12:10"));
             }});
         //w
-        LocalTime localTime = intineraryService.findNextDepartures("Emu Plains", "North Richmond",
-                LocalTime.parse("10:00"));
+        LocalTime localTime = intineraryService.findNextDepartures("Emu Plains", "North Richmond"
+                , "Western", LocalTime.parse("10:00"));
         //t
 
-        Assert.assertThat(localTime, is(LocalTime.parse("10:10")));
+        Assert.assertThat(localTime, is(LocalTime.parse("12:10")));
         }
 
     @Test(expected = NoSuchElementException.class)
     public void shouldThrowExceptionBecauseOfBadTime()
         {
         //g
-
-        when(timetableService.findLinesThrough("Emu Plains", "North Richmond")).thenReturn(new LinkedList<Line>()
-            {{
-            add(line);
-            }});
         when(timetableService.findArrivalTimes(line, "Emu Plains")).thenReturn(new LinkedList<LocalTime>()
             {{
             add(LocalTime.parse("10:10"));
@@ -81,10 +81,8 @@ public class WhenCalculatingArrivalTimes
             add(LocalTime.parse("12:10"));
             }});
         //w
-        LocalTime localTime = intineraryService.findNextDepartures("Emu Plains", "North Richmond",
-                LocalTime.parse("11:00"));
-        //t
-
-        Assert.assertThat(localTime, is(LocalTime.parse("10:10")));
+        LocalTime localTime = intineraryService.findNextDepartures("Emu Plains", "North Richmond"
+                ,"Western", LocalTime.parse("11:00"));
+        //t throw
         }
     }

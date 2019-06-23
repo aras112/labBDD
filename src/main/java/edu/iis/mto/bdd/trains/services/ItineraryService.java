@@ -4,5 +4,6 @@ import org.joda.time.LocalTime;
 
 public interface ItineraryService
     {
-    LocalTime findNextDepartures(String travellingOnLine, String destination, LocalTime time);
+    LocalTime findNextDepartures(String departure, String destination,
+                                 String lineName, LocalTime time);
     }
