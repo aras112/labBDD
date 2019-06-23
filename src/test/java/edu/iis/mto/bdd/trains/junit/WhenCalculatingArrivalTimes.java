@@ -1,24 +1,61 @@
 package edu.iis.mto.bdd.trains.junit;
 
+import org.joda.time.LocalTime;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
-import edu.iis.mto.bdd.trains.services.IntineraryServiceImpl;
+import java.util.LinkedList;
+import java.util.List;
 
-import static org.junit.Assert.*;
+import edu.iis.mto.bdd.trains.model.Line;
+import edu.iis.mto.bdd.trains.services.ItineraryServiceImpl;
+import edu.iis.mto.bdd.trains.services.TimetableService;
+
+import static org.hamcrest.Matchers.is;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.when;
 
 public class WhenCalculatingArrivalTimes
     {
+    @Mock
+    private TimetableService timetableService;
+    private Line line;
+    private ItineraryServiceImpl intineraryService;
 
     @Before
     public void setUp() throws Exception
         {
-        IntineraryServiceImpl intineraryService=new IntineraryServiceImpl();
+        line = Line.named("Western").departingFrom("Emu Plains").withStations("Emu Plains",
+                "Parramatta", "Town Hall",
+                "North Richmond");
+        intineraryService = new ItineraryServiceImpl(timetableService);
+
         }
 
     @Test
     public void name()
         {
+        //g
 
+        when(timetableService.findLinesThrough("Emu Plains", "North Richmond")).thenReturn(new LinkedList<Line>()
+            {{
+            add(line);
+            }});
+        when(timetableService.findArrivalTimes(line, "Emu Plains")).thenReturn(new LinkedList<LocalTime>()
+            {{
+            add(LocalTime.parse("10:10"));
+            }});
+        when(timetableService.findArrivalTimes(line, "North Richmond")).thenReturn(new LinkedList<LocalTime>()
+            {{
+            add(LocalTime.parse("12:10"));
+            }});
+        //w
+        LocalTime localTime = intineraryService.findNextDepartures("Emu Plains", "North Richmond",
+                LocalTime.parse("10:10"));
+        //t
+
+        Assert.assertThat(localTime, is(LocalTime.parse("10:10")));
         }
     }
