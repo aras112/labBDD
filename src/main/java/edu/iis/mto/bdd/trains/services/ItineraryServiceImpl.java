@@ -12,7 +12,7 @@ import edu.iis.mto.bdd.trains.model.Line;
 public class ItineraryServiceImpl implements ItineraryService
     {
     TimetableService timetableService;
-    Integer trainNumber = 0;
+    Integer trainNumber;
 
     public ItineraryServiceImpl(TimetableService timetableService)
         {
@@ -23,6 +23,7 @@ public class ItineraryServiceImpl implements ItineraryService
     public LocalTime findNextDepartures(String departure, String destination,
                                         String lineName, LocalTime time)
         {
+        trainNumber=0;
         List<Line> lineList = timetableService.findLinesThrough(departure, destination);
         List<Line> correctLine = getLinesWithCorrectName(lineName, lineList);
 

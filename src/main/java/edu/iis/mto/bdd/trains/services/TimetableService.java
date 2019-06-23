@@ -6,7 +6,8 @@ import org.joda.time.LocalTime;
 
 import edu.iis.mto.bdd.trains.model.Line;
 
-public interface TimetableService {
+public interface TimetableService
+    {
 
     List<LocalTime> findArrivalTimes(Line line, String targetStation);
 
@@ -15,4 +16,6 @@ public interface TimetableService {
     void scheduleArrivalTime(String line, LocalTime departureTime);
 
     LocalTime getArrivalTime(String travellingOnLine, String destination);
-}
+
+    void setUniversalDepartureTimes(List<LocalTime> universalDepartureTimes);
+    }
