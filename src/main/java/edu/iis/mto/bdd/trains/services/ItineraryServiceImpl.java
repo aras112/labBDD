@@ -2,6 +2,10 @@ package edu.iis.mto.bdd.trains.services;
 
 import org.joda.time.LocalTime;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.NoSuchElementException;
+
 import edu.iis.mto.bdd.trains.model.Line;
 
 public class ItineraryServiceImpl implements ItineraryService
@@ -16,6 +20,24 @@ public class ItineraryServiceImpl implements ItineraryService
     @Override
     public LocalTime findNextDepartures(String departure, String destination, LocalTime time)
         {
-        return null;
+        List<Line> lineList = timetableService.findLinesThrough(departure, destination);
+
+        LocalTime theBestTime = null;
+
+        for (Line line : lineList)
+            {
+            LocalTime theTime = timetableService.findArrivalTimes(line, departure)
+                    .stream()
+                    .filter(localTime -> localTime.isAfter(time))
+                    .findFirst()
+                    .orElseThrow(() -> new NoSuchElementException());
+
+            if (theBestTime == null || theTime.isBefore(theBestTime))
+                {
+                theBestTime = theTime;
+                }
+            }
+
+        return theBestTime;
         }
     }

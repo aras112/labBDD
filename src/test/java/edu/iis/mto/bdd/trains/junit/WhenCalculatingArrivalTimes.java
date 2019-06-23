@@ -4,7 +4,9 @@ import org.joda.time.LocalTime;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -17,6 +19,7 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
+@RunWith(MockitoJUnitRunner.class)
 public class WhenCalculatingArrivalTimes
     {
     @Mock
@@ -53,7 +56,7 @@ public class WhenCalculatingArrivalTimes
             }});
         //w
         LocalTime localTime = intineraryService.findNextDepartures("Emu Plains", "North Richmond",
-                LocalTime.parse("10:10"));
+                LocalTime.parse("10:00"));
         //t
 
         Assert.assertThat(localTime, is(LocalTime.parse("10:10")));
